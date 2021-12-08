@@ -33,7 +33,7 @@ export class ScoresController {
   @ApiOkResponse({ type: Score, description: 'the score is there' })
   @ApiNotFoundResponse()
   @Get(':id')
-  getUserById(@Param('id', ParseIntPipe) id: number): Score {
+  getScoreById(@Param('id', ParseIntPipe) id: number): Score {
     const score = this.scoresService.findById(id);
     if (!score) {
       throw new NotFoundException();
