@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { CreateScoreDto } from './dto/create-score.dto';
 import { Score } from './entities/score.entity';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class ScoresService {
-  private scores: Score[] = [
-    { id: 0, name: 'Maria' },
-    { id: 1, name: 'Elena' },
-    { id: 2, name: 'Pavel' },
-  ];
-  findAll(name?: string): Score[] {
-    if (name) {
-      return this.scores.filter((score) => score.name === name);
-    }
-    return this.scores;
+  constructor(
+    @InjectModel('Score') private readonly scoreModel: Model<Score>,
+  ) {}
+
+  async findAll(name?: string): Promise<Score[]> {
+    return await this.scoreModel.find();
   }
-  findById(scoreId: number): Score {
-    return this.scores.find((score) => score.id === scoreId);
+  async findOne(id: number): Promise<Score> {
+    return await this.scoreModel.findOne({ _id: id });
   }
-  createScore(createScoreDto: CreateScoreDto): Score {
-    const newScore = { id: Date.now(), ...createScoreDto };
-    this.scores.push(newScore);
-    return newScore;
+  async create(score: Score): Promise<Score> {
+    const newScore = new this.scoreModel(score);
+    return await newScore.save();
+  }
+
+  async delete(id: string): Promise<Score> {
+    return await this.scoreModel.findByIdAndRemove(id);
+  }
+  async update(id: string, score: Score): Promise<Score> {
+    return await this.scoreModel.findByIdAndUpdate(id, score, { new: true });
   }
 }

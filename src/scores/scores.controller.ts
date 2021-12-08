@@ -1,11 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  NotFoundException,
   Param,
-  ParseIntPipe,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import {
@@ -26,24 +26,37 @@ export class ScoresController {
   constructor(private scoresService: ScoresService) {}
   @ApiOkResponse({ type: Score, isArray: true })
   @ApiQuery({ name: 'name,', required: false })
+  //GetAll Request
   @Get()
-  getScores(@Query('name') name?: string): Score[] {
-    return this.scoresService.findAll(name);
+  findAll(@Query('name') name?: string): Promise<Score[]> {
+    return this.scoresService.findAll();
   }
   @ApiOkResponse({ type: Score, description: 'the score is there' })
   @ApiNotFoundResponse()
+  // GetOne
   @Get(':id')
-  getScoreById(@Param('id', ParseIntPipe) id: number): Score {
-    const score = this.scoresService.findById(id);
-    if (!score) {
-      throw new NotFoundException();
-    }
-    return score;
+  findOne(@Param('id') id): Promise<Score> {
+    return this.scoresService.findOne(id);
   }
+
   @ApiCreatedResponse({ type: Score })
   @ApiBadRequestResponse()
+  //Post
   @Post()
-  createScore(@Body() body: CreateScoreDto): Score {
-    return this.scoresService.createScore(body);
+  create(@Body() createItemDto: CreateScoreDto): Promise<Score> {
+    return this.scoresService.create(createItemDto);
+  }
+  //Delete
+  @Delete(':id')
+  delete(@Param('id') id): Promise<Score> {
+    return this.scoresService.delete(id);
+  }
+  //Update
+  @Put(':id')
+  update(
+    @Body() updateScoreDto: CreateScoreDto,
+    @Param('id') id,
+  ): Promise<Score> {
+    return this.scoresService.update(id, updateScoreDto);
   }
 }
