@@ -17,7 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateScoreDto } from './dto/create-score.dto';
-import { Score } from './entities/score.entity';
+import { Score } from './entities/scoreЕntity';
 import { ScoresService } from './scores.service';
 
 @ApiTags('scores')
@@ -25,7 +25,7 @@ import { ScoresService } from './scores.service';
 export class ScoresController {
   constructor(private scoresService: ScoresService) {}
   @ApiOkResponse({ type: Score, isArray: true })
-  @ApiQuery({ name: 'name,', required: false })
+  @ApiQuery({ name: 'name', required: false })
   //GetAll Request
   @Get()
   findAll(@Query('name') name?: string): Promise<Score[]> {
