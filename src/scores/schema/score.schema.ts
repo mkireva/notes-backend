@@ -27,6 +27,10 @@ export class Score {
 
   @Prop()
   category: string;
+
+  @Prop()
+  lyrics: string;
+
   @Prop()
   url: string;
 
