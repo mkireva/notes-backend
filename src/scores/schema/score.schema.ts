@@ -16,6 +16,7 @@ export class Score {
 
   @Prop()
   text: string;
+
   @Prop()
   year: number;
 

@@ -1,5 +1,5 @@
 import {
-  Delete,
+  CacheModule,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -10,10 +10,16 @@ import { ScoresService } from './scores.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Score, ScoreSchema } from './schema/score.schema';
 import { AuditMiddleware } from 'src/common/middleware/audit.middleware';
+import { max } from 'class-validator';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Score.name, schema: ScoreSchema }]),
+    CacheModule.register({
+      ttl: 5, //seconds,
+      max: 100, //max number of Items in cache})
+      //Todo add redis with more parameter
+    }),
   ],
   controllers: [ScoresController],
   providers: [ScoresService],

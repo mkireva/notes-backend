@@ -18,14 +18,14 @@ async function bootstrap() {
   // app.useGlobalFilters(new HttpExceptionFilter());
   // app.useGlobalFilters(new ValidationExceptionFilter());
 
-  const config = new DocumentBuilder()
-    .setTitle('Score API')
+  const swaggerconfig = new DocumentBuilder()
+    .setTitle('Beinsa Notes API')
     .setDescription('API for music notes rendering')
     .setVersion('1.0')
     .addTag('scores')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, swaggerconfig);
   SwaggerModule.setup('/', app, document);
 
   await app.listen(3000);
