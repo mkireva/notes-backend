@@ -87,8 +87,8 @@ export class ScoresController {
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @UseFilters(ValidationExceptionFilter)
-  create(@ScoreData(ValidationPipe) ScoreDto: ScoreDto): Promise<Score> {
-    return this.scoresService.create(ScoreDto);
+  async create(@ScoreData(ValidationPipe) ScoreDto: ScoreDto): Promise<Score> {
+    return await this.scoresService.create(ScoreDto);
   }
   //Delete
   @Delete(':id')
