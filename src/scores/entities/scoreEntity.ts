@@ -20,5 +20,7 @@ export class Score {
   @ApiProperty()
   description: string;
   @ApiProperty()
+  lyrics: string;
+  @ApiProperty()
   url: string;
 }

@@ -6,21 +6,16 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
-import { ValidationExceptionFilter } from './filters/validation-exception.filter';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
 
-  // app.useGlobalPipes(new ValidationPipe());
-  // app.useGlobalFilters(new HttpExceptionFilter());
-  // app.useGlobalFilters(new ValidationExceptionFilter());
-
   const swaggerconfig = new DocumentBuilder()
-    .setTitle('Beinsa Notes API')
-    .setDescription('API for music notes rendering')
+    .setTitle('Beinsa scores API')
+    .setDescription('API for music scores rendering CRUD')
     .setVersion('1.0')
     .addTag('scores')
     .build();

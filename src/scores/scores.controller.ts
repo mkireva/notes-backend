@@ -9,7 +9,6 @@ import {
   Query,
   HttpException,
   HttpStatus,
-  UsePipes,
   UseFilters,
   CacheKey,
   CacheTTL,
@@ -32,35 +31,40 @@ import { ScoresService } from './scores.service';
 import { ScoreData } from './decorators/scoredata.decorator';
 import { ValidationExceptionFilter } from 'src/filters/validation-exception.filter';
 import { BenchmarkInterceptor } from '../interceptors/benchmark.interceptor';
+import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 
 @ApiTags('scores')
 @Controller('scores')
 @UseInterceptors(CacheInterceptor, BenchmarkInterceptor)
 export class ScoresController {
   constructor(private scoresService: ScoresService) {}
-  @ApiOkResponse({ type: Score, isArray: true })
-  @ApiQuery({ name: 'name', required: false })
+
   //GetAll Request
   @Get()
-  @CacheKey('allScores')
-  @CacheTTL(15)
-  findAll(@Query('name') name?: string): Promise<Score[]> {
-    return this.scoresService.findAll();
-  }
   @ApiOkResponse({
     type: Score,
-    description: 'the rescore has been successfully returned',
+    isArray: true,
+    description: 'The resource list has been successfully returned',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiNotFoundResponse()
+  @ApiQuery({ name: 'name', required: false })
+  @CacheKey('allScores')
+  @CacheTTL(15)
+  findAll(@Query('name') name?: string): Promise<Score[]> {
+    return this.scoresService.findAll(name);
+  }
 
   // GetOne
   @Get(':id')
+  @CacheTTL(30)
   @ApiOkResponse({
     type: Score,
     description: 'the rescore has been successfully returned',
   })
+  @UseFilters(HttpExceptionFilter)
   @ApiForbiddenResponse({ description: 'Forbidden' })
+  @ApiNotFoundResponse()
   @CacheTTL(15)
   findOne(@Param('id') id): Promise<Score> {
     return this.scoresService
@@ -76,9 +80,9 @@ export class ScoresController {
         throw new HttpException('Score not found', HttpStatus.NOT_FOUND);
       });
   }
-
   @ApiCreatedResponse({ type: Score })
   @ApiBadRequestResponse()
+
   //Post
   @Post()
   @ApiCreatedResponse({
@@ -86,8 +90,8 @@ export class ScoresController {
     description: 'the rescore has been successfully created',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
-  @UseFilters(ValidationExceptionFilter)
-  async create(@ScoreData(ValidationPipe) ScoreDto: ScoreDto): Promise<Score> {
+  // @UseFilters(new ValidationExceptionFilter())
+  async create(@Body() ScoreDto: ScoreDto): Promise<Score> {
     return await this.scoresService.create(ScoreDto);
   }
   //Delete
