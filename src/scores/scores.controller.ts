@@ -83,7 +83,7 @@ export class ScoresController {
   @ApiCreatedResponse({ type: Score })
   @ApiBadRequestResponse()
 
-  //Post
+  //POST
   @Post()
   @ApiCreatedResponse({
     type: Score,
@@ -94,7 +94,7 @@ export class ScoresController {
   async create(@Body() ScoreDto: ScoreDto): Promise<Score> {
     return await this.scoresService.create(ScoreDto);
   }
-  //Delete
+  //DELETE
   @Delete(':id')
   @ApiOkResponse({
     type: Score,
@@ -104,7 +104,8 @@ export class ScoresController {
   delete(@Param('id') id: string): Promise<Score> {
     return this.scoresService.delete(id);
   }
-  //Update
+
+  //UPDATE
   @Put(':id')
   @ApiOkResponse({
     type: Score,
@@ -112,8 +113,8 @@ export class ScoresController {
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   update(
+    @Param('id') id: string,
     @Body() updateScoreDto: ScoreDto,
-    @Param(':id') id: string,
   ): Promise<Score> {
     return this.scoresService.update(id, updateScoreDto);
   }
