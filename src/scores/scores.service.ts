@@ -12,7 +12,7 @@ export class ScoresService {
   async findAll(name?: string): Promise<Score[]> {
     return await this.scoreModel.find();
   }
-  async findOne(id: number): Promise<Score> {
+  async findOne(id: string): Promise<Score> {
     return await this.scoreModel.findOne({ _id: id });
   }
   async create(score: Score): Promise<Score> {

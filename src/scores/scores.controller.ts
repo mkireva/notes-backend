@@ -66,7 +66,7 @@ export class ScoresController {
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiNotFoundResponse()
   @CacheTTL(15)
-  findOne(@Param('id') id): Promise<Score> {
+  findOne(@Param('id') id: string): Promise<Score> {
     return this.scoresService
       .findOne(id)
       .then((result) => {
@@ -90,9 +90,12 @@ export class ScoresController {
     description: 'the rescore has been successfully created',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
-  @UseFilters(new HttpExceptionFilter())
+  @UseFilters(HttpExceptionFilter)
   @UseFilters(new ValidationExceptionFilter())
-  async create(@Body(new ValidationPipe()) ScoreDto: ScoreDto): Promise<Score> {
+  async create(
+    @Body(new ValidationPipe()) @ScoreData() ScoreDto: ScoreDto,
+  ): Promise<Score> {
+    console.log(ScoreDto);
     return await this.scoresService.create(ScoreDto);
   }
   //DELETE
@@ -107,7 +110,7 @@ export class ScoresController {
   }
 
   //UPDATE
-  @Put(':id')
+  @Put('/:id/status')
   @ApiOkResponse({
     type: Score,
     description: 'the rescore has been successfully updated',

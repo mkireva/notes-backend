@@ -65,7 +65,8 @@ export class ScoreDto {
   @ApiProperty({
     type: String,
     description: 'Description of the score',
-    default: 'Lorem ipsum dolor sit amet',
+    default:
+      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
   })
   @IsString()
   readonly description: string;
