@@ -90,8 +90,9 @@ export class ScoresController {
     description: 'the rescore has been successfully created',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
-  // @UseFilters(new ValidationExceptionFilter())
-  async create(@Body() ScoreDto: ScoreDto): Promise<Score> {
+  @UseFilters(new HttpExceptionFilter())
+  @UseFilters(new ValidationExceptionFilter())
+  async create(@Body(new ValidationPipe()) ScoreDto: ScoreDto): Promise<Score> {
     return await this.scoresService.create(ScoreDto);
   }
   //DELETE
