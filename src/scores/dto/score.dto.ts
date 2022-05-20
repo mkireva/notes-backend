@@ -45,13 +45,13 @@ export class ScoreDto {
   @ApiProperty({
     type: String,
     description: 'Key of the score',
-    default: ' c dur',
+    default: 'c dur',
   })
   readonly key: string;
   @ApiProperty({
     type: String,
     description: 'Color of the score',
-    default: ' red',
+    default: 'red',
   })
   @IsString()
   readonly color: string;

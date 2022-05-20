@@ -11,6 +11,8 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  app.enableCors();
+  app.setGlobalPrefix('api');
 
   const swaggerconfig = new DocumentBuilder()
     .setTitle('Beinsa scores API')
