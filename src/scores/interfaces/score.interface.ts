@@ -1,9 +1,9 @@
 export interface Job {
-  id?: string;
   title: string;
   author: string;
   text: string;
   year: number;
+  createdAt: string;
   key: string;
   color: string;
   category: string;

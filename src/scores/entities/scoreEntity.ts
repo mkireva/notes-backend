@@ -2,8 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Score {
   @ApiProperty()
-  id: string;
-  @ApiProperty()
   title: string;
   @ApiProperty()
   author: string;
@@ -11,6 +9,8 @@ export class Score {
   text: string;
   @ApiProperty()
   year: number;
+  @ApiProperty()
+  createdAt: string;
   @ApiProperty()
   key: string;
   @ApiProperty()

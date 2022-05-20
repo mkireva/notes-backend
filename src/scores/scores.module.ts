@@ -26,8 +26,6 @@ import { max } from 'class-validator';
 })
 export class ScoresModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuditMiddleware)
-      .forRoutes({ path: 'scores/*', method: RequestMethod.DELETE });
+    consumer.apply(AuditMiddleware).forRoutes('*');
   }
 }

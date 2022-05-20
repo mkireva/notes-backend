@@ -1,18 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAlphanumeric, MaxLength } from 'class-validator';
+import { IsAlphanumeric, IsDate, MaxLength } from 'class-validator';
 import { IsString, IsInt } from 'class-validator';
 
 export class ScoreDto {
-  @ApiProperty({
-    type: String,
-    description: 'id of the the score',
-    default: '',
-  })
-  // @IsAlphanumeric()
-  // @MaxLength(10)
-  @IsString()
-  readonly id: string;
-
   @ApiProperty({
     type: String,
     description: 'Title of the score',
@@ -41,17 +31,27 @@ export class ScoreDto {
     default: '1933',
   })
   readonly year: number;
+  @ApiProperty({
+    type: String,
+    description: 'id of the the score',
+    default: '17.06.1925',
+  })
+  // @IsAlphanumeric()
+  // @MaxLength(10)
+  @IsString()
+  readonly createdAt: string;
+
   @IsString()
   @ApiProperty({
     type: String,
     description: 'Key of the score',
-    default: 'c dur',
+    default: 'd minor',
   })
   readonly key: string;
   @ApiProperty({
     type: String,
     description: 'Color of the score',
-    default: 'red',
+    default: 'orange',
   })
   @IsString()
   readonly color: string;

@@ -6,9 +6,6 @@ export type ScoreDocument = Score & Document;
 @Schema()
 export class Score {
   @Prop()
-  id: string;
-
-  @Prop()
   title: string;
 
   @Prop()
@@ -19,6 +16,9 @@ export class Score {
 
   @Prop()
   year: number;
+
+  @Prop()
+  created: string;
 
   @Prop()
   key: string;
