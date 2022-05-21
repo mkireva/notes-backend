@@ -3,14 +3,12 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
-  RequestMethod,
 } from '@nestjs/common';
 import { ScoresController } from './scores.controller';
 import { ScoresService } from './scores.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Score, ScoreSchema } from './schema/score.schema';
 import { AuditMiddleware } from 'src/common/middleware/audit.middleware';
-import { max } from 'class-validator';
 
 @Module({
   imports: [

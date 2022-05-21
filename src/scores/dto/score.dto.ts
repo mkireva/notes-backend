@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAlphanumeric, IsDate, MaxLength } from 'class-validator';
 import { IsString, IsInt } from 'class-validator';
 
 export class ScoreDto {
@@ -36,8 +35,6 @@ export class ScoreDto {
     description: 'id of the the score',
     default: '17.06.1925',
   })
-  // @IsAlphanumeric()
-  // @MaxLength(10)
   @IsString()
   readonly createdAt: string;
 

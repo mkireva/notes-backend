@@ -44,18 +44,18 @@ export class ScoresController {
   @ApiOkResponse({
     type: Score,
     isArray: true,
-    description: 'The resource list has been successfully returned',
+    description: 'The score list has been successfully returned',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiNotFoundResponse()
   @ApiQuery({ name: 'name', required: false })
   @CacheKey('allScores')
   @CacheTTL(15)
-  findAll(@Query('name') name?: string): Promise<Score[]> {
+  findAll(@Query('name') name: string): Promise<Score[]> {
     return this.scoresService.findAll(name);
   }
 
-  // GetOne
+  // GETONE
   @Get(':id')
   @CacheTTL(30)
   @ApiOkResponse({
@@ -80,14 +80,17 @@ export class ScoresController {
         throw new HttpException('Score not found', HttpStatus.NOT_FOUND);
       });
   }
-  @ApiCreatedResponse({ type: Score })
+  @ApiCreatedResponse({
+    type: Score,
+    description: 'The score list has been successfully returned',
+  })
   @ApiBadRequestResponse()
 
   //POST
   @Post()
   @ApiCreatedResponse({
     type: Score,
-    description: 'the rescore has been successfully created',
+    description: 'the score has been successfully created',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @UseFilters(HttpExceptionFilter)
@@ -102,7 +105,7 @@ export class ScoresController {
   @Delete(':id')
   @ApiOkResponse({
     type: Score,
-    description: 'the rescore has been successfully deleted',
+    description: 'the score has been successfully deleted',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   delete(@Param('id') id: string): Promise<Score> {
@@ -113,7 +116,7 @@ export class ScoresController {
   @Put('/:id/status')
   @ApiOkResponse({
     type: Score,
-    description: 'the rescore has been successfully updated',
+    description: 'the score has been successfully updated',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
   update(

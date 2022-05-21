@@ -18,7 +18,7 @@ export class Score {
   year: number;
 
   @Prop()
-  created: string;
+  createdAt: string;
 
   @Prop()
   key: string;

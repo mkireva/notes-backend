@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Score } from './entities/scoreEntity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { ScoreDto } from './dto/score.dto';
 
 @Injectable()
 export class ScoresService {
@@ -9,9 +10,10 @@ export class ScoresService {
     @InjectModel('Score') private readonly scoreModel: Model<Score>,
   ) {}
 
-  async findAll(name?: string): Promise<Score[]> {
+  async findAll(title?: string): Promise<Score[]> {
     return await this.scoreModel.find();
   }
+
   async findOne(id: string): Promise<Score> {
     return await this.scoreModel.findOne({ _id: id });
   }
