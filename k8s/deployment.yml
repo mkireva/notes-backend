@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-backend
+spec:
+  selector:
+    matchLabels:
+      app: notes-backend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: notes-backend
+    spec:
+      containers:
+        - name: notes-backend
+          image: mkireva/notes-backend
+          ports:
+            - containerPort: 3000
