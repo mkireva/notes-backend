@@ -39,7 +39,7 @@ import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 export class ScoresController {
   constructor(private scoresService: ScoresService) {}
 
-  //GetAll Request
+  // GetAll Request
   @Get()
   @ApiOkResponse({
     type: Score,
@@ -51,8 +51,8 @@ export class ScoresController {
   @ApiQuery({ name: 'name', required: false })
   @CacheKey('allScores')
   @CacheTTL(15)
-  async findAll(@Query(ValidationPipe) name: string): Promise<Score[]> {
-    return await this.scoresService.findAll(name);
+  async findAll(@Query('title') title: string): Promise<Score[]> {
+    return await this.scoresService.findAll(title);
   }
 
   // GETONE
@@ -98,7 +98,6 @@ export class ScoresController {
   async create(
     @Body(new ValidationPipe()) @ScoreData() ScoreDto: ScoreDto,
   ): Promise<Score> {
-    console.log(ScoreDto);
     return await this.scoresService.create(ScoreDto);
   }
 

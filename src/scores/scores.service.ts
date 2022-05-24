@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Score } from './entities/scoreEntity';
 import { Model, Query } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { ScoreDto } from './dto/score.dto';
 
 @Injectable()
 export class ScoresService {
@@ -10,7 +9,12 @@ export class ScoresService {
     @InjectModel('Score') private readonly scoreModel: Model<Score>,
   ) {}
 
-  async findAll(name?: string): Promise<Score[]> {
+  private scores: Score[] = [];
+
+  async findAll(title?: string): Promise<Score[]> {
+    if (title) {
+      return this.scores.filter((score) => score.title === title);
+    }
     return await this.scoreModel.find();
   }
 
