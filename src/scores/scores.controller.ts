@@ -51,8 +51,8 @@ export class ScoresController {
   @ApiQuery({ name: 'name', required: false })
   @CacheKey('allScores')
   @CacheTTL(15)
-  findAll(@Query('name') name: string): Promise<Score[]> {
-    return this.scoresService.findAll(name);
+  async findAll(@Query(ValidationPipe) name: string): Promise<Score[]> {
+    return await this.scoresService.findAll(name);
   }
 
   // GETONE
@@ -101,6 +101,7 @@ export class ScoresController {
     console.log(ScoreDto);
     return await this.scoresService.create(ScoreDto);
   }
+
   //DELETE
   @Delete(':id')
   @ApiOkResponse({

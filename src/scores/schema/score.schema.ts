@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type ScoreDocument = Score & Document;
 
-@Schema()
+@Schema({ versionKey: false, collection: 'scores' })
 export class Score {
   @Prop()
   title: string;
