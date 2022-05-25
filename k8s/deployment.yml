@@ -16,4 +16,4 @@ spec:
         - name: notes-backend
           image: mkireva/notes-backend
           ports:
-            - containerPort: 3000
+            - containerPort: 8000
