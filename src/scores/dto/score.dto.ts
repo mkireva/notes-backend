@@ -4,6 +4,13 @@ import { IsString, IsInt } from 'class-validator';
 export class ScoreDto {
   @ApiProperty({
     type: String,
+    description: 'id of the score',
+    default: '',
+  })
+  @IsString()
+  readonly scoreId: string;
+  @ApiProperty({
+    type: String,
     description: 'Title of the score',
     default: 'Vehadi',
   })

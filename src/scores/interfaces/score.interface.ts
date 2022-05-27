@@ -1,4 +1,5 @@
-export interface Job {
+export interface Score {
+  scoreId: string;
   title: string;
   author: string;
   text: string;

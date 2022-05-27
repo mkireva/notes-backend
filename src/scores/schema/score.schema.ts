@@ -6,6 +6,8 @@ export type ScoreDocument = Score & Document;
 @Schema({ versionKey: false, collection: 'scores' })
 export class Score {
   @Prop()
+  scoreId: string;
+  @Prop()
   title: string;
 
   @Prop()

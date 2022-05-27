@@ -1,12 +1,9 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
-  Put,
-  Query,
   HttpException,
   HttpStatus,
   UseFilters,
@@ -14,6 +11,7 @@ import {
   CacheTTL,
   UseInterceptors,
   CacheInterceptor,
+  Patch,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -39,7 +37,7 @@ import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 export class ScoresController {
   constructor(private scoresService: ScoresService) {}
 
-  // GetAll Request
+  //GetAll Request
   @Get()
   @ApiOkResponse({
     type: Score,
@@ -51,12 +49,12 @@ export class ScoresController {
   @ApiQuery({ name: 'name', required: false })
   @CacheKey('allScores')
   @CacheTTL(15)
-  async findAll(@Query('title') title: string): Promise<Score[]> {
-    return await this.scoresService.findAll(title);
+  async getScores(): Promise<Score[]> {
+    return await this.scoresService.getScores();
   }
 
   // GETONE
-  @Get(':id')
+  @Get(':scoreId')
   @CacheTTL(30)
   @ApiOkResponse({
     type: Score,
@@ -66,9 +64,9 @@ export class ScoresController {
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiNotFoundResponse()
   @CacheTTL(15)
-  findOne(@Param('id') id: string): Promise<Score> {
+  async getScore(@Param('scoreId') scoreId: string): Promise<Score> {
     return this.scoresService
-      .findOne(id)
+      .getScoreById(scoreId)
       .then((result) => {
         if (result) {
           return result;
@@ -98,31 +96,32 @@ export class ScoresController {
   async create(
     @Body(new ValidationPipe()) @ScoreData() ScoreDto: ScoreDto,
   ): Promise<Score> {
-    return await this.scoresService.create(ScoreDto);
+    return await this.scoresService.createScore(
+      ScoreDto.scoreId,
+      ScoreDto.title,
+      ScoreDto.author,
+      ScoreDto.text,
+      ScoreDto.year,
+      ScoreDto.createdAt,
+      ScoreDto.key,
+      ScoreDto.color,
+      ScoreDto.category,
+      ScoreDto.description,
+      ScoreDto.lyrics,
+      ScoreDto.url,
+    );
   }
-
-  //DELETE
-  @Delete(':id')
-  @ApiOkResponse({
-    type: Score,
-    description: 'the score has been successfully deleted',
-  })
-  @ApiForbiddenResponse({ description: 'Forbidden' })
-  delete(@Param('id') id: string): Promise<Score> {
-    return this.scoresService.delete(id);
-  }
-
   //UPDATE
-  @Put('/:id/status')
-  @ApiOkResponse({
+  @Patch(':scoreId')
+  @ApiCreatedResponse({
     type: Score,
     description: 'the score has been successfully updated',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
-  update(
-    @Param('id') id: string,
-    @Body() updateScoreDto: ScoreDto,
+  async updateScore(
+    @Param('scoreId') scoreId: string,
+    @Body() scoreDto: ScoreDto,
   ): Promise<Score> {
-    return this.scoresService.update(id, updateScoreDto);
+    return this.scoresService.updateScore(scoreId, scoreDto);
   }
 }

@@ -1,36 +1,52 @@
 import { Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
+import { ScoreDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
+import { ScoresRepository } from './scores.repository';
 
 @Injectable()
 export class ScoresService {
-  constructor(
-    @InjectModel('Score') private readonly scoreModel: Model<Score>,
-  ) {}
+  constructor(private readonly scoresRepository: ScoresRepository) {}
 
-  private scores: Score[] = [];
-
-  async findAll(title?: string): Promise<Score[]> {
-    if (title) {
-      return this.scores.filter((score) => score.title === title);
-    }
-    return await this.scoreModel.find();
+  async getScores(): Promise<Score[]> {
+    return this.scoresRepository.find({});
   }
 
-  async findOne(id: string): Promise<Score> {
-    return await this.scoreModel.findOne({ _id: id });
+  async getScoreById(scoreId: string): Promise<Score> {
+    return this.scoresRepository.findOne({ scoreId });
   }
 
-  async create(score: Score): Promise<Score> {
-    const newScore = new this.scoreModel(score);
-    return await newScore.save();
+  async createScore(
+    scoreId: string,
+    title: string,
+    author: string,
+    text: string,
+    year: number,
+    createdAt: string,
+    key: string,
+    color: string,
+    category: string,
+    description: string,
+    lyrics: string,
+    url: string,
+  ): Promise<Score> {
+    return this.scoresRepository.create({
+      scoreId: uuidv4(),
+      title,
+      author,
+      text,
+      year,
+      createdAt,
+      key,
+      color,
+      category,
+      description,
+      lyrics,
+      url,
+    });
   }
 
-  async delete(id: string): Promise<Score> {
-    return await this.scoreModel.findByIdAndRemove(id);
-  }
-  async update(id: string, score: Score): Promise<Score> {
-    return await this.scoreModel.findByIdAndUpdate(id, score, { new: true });
+  async updateScore(scoreId: string, scoreUpdates: ScoreDto): Promise<Score> {
+    return this.scoresRepository.findOneAndUpdate({ scoreId }, scoreUpdates);
   }
 }
