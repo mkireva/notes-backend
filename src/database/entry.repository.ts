@@ -1,4 +1,5 @@
 import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
+import { PaginationParameters } from 'src/scores/dto/pagination-parameters.dto';
 import { ScoreDto } from 'src/scores/dto/score.dto';
 
 export abstract class EntityRepository<T extends Document> {
@@ -17,8 +18,25 @@ export abstract class EntityRepository<T extends Document> {
       .exec();
   }
 
-  async find(entityFilterQuery: FilterQuery<T>): Promise<T[] | null> {
-    return this.entityModel.find(entityFilterQuery);
+  async find(
+    entityFilterQuery: FilterQuery<T>,
+    paginationParameters: PaginationParameters,
+  ): Promise<T[] | null> {
+    return this.entityModel.find(
+      entityFilterQuery,
+      {},
+      {
+        lean: true,
+        sort: {
+          scoreDate: -1,
+        },
+        ...paginationParameters,
+      },
+    );
+  }
+
+  async count(): Promise<number> {
+    return this.entityModel.count({});
   }
 
   async create(createEntityData: ScoreDto): Promise<T> {

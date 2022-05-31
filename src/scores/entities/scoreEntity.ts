@@ -10,7 +10,7 @@ export class Score {
   @ApiProperty()
   text: string;
   @ApiProperty()
-  year: number;
+  scoreDate: Date;
   @ApiProperty()
   createdAt: string;
   @ApiProperty()

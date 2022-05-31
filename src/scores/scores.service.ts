@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
+import { PaginationParameters } from './dto/pagination-parameters.dto';
 import { ScoreDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresRepository } from './scores.repository';
@@ -8,8 +9,14 @@ import { ScoresRepository } from './scores.repository';
 export class ScoresService {
   constructor(private readonly scoresRepository: ScoresRepository) {}
 
-  async getScores(): Promise<Score[]> {
-    return this.scoresRepository.find({});
+  async getScores(
+    paginationParameters: PaginationParameters,
+  ): Promise<Score[]> {
+    return this.scoresRepository.find(paginationParameters, {});
+  }
+
+  async countScores(): Promise<number> {
+    return this.scoresRepository.count();
   }
 
   async getScoreById(scoreId: string): Promise<Score> {
@@ -21,8 +28,8 @@ export class ScoresService {
     title: string,
     author: string,
     text: string,
-    year: number,
     createdAt: string,
+    scoreDate: Date,
     key: string,
     color: string,
     category: string,
@@ -35,7 +42,7 @@ export class ScoresService {
       title,
       author,
       text,
-      year,
+      scoreDate,
       createdAt,
       key,
       color,

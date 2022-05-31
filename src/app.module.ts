@@ -19,13 +19,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
 
   controllers: [AppController],
-  providers: [
-    AppService,
-
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: HttpExceptionFilter,
-    // },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -12,6 +12,7 @@ import {
   UseInterceptors,
   CacheInterceptor,
   Patch,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -22,7 +23,6 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { ScoreDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresService } from './scores.service';
@@ -30,6 +30,8 @@ import { ScoreData } from './decorators/scoredata.decorator';
 import { ValidationExceptionFilter } from 'src/filters/validation-exception.filter';
 import { BenchmarkInterceptor } from '../interceptors/benchmark.interceptor';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
+import { PaginationParameters } from './dto/pagination-parameters.dto';
+import { filter, Observable } from 'rxjs';
 
 @ApiTags('scores')
 @Controller('scores')
@@ -49,8 +51,16 @@ export class ScoresController {
   @ApiQuery({ name: 'name', required: false })
   @CacheKey('allScores')
   @CacheTTL(15)
-  async getScores(): Promise<Score[]> {
-    return await this.scoresService.getScores();
+  async getScores(
+    @Query() getScoresParameters: PaginationParameters,
+  ): Promise<Score[]> {
+    console.log(getScoresParameters);
+    return this.scoresService.getScores(getScoresParameters);
+  }
+  //Count
+  @Get('count')
+  async countScores(): Promise<number> {
+    return this.scoresService.countScores();
   }
 
   // GETONE
@@ -93,16 +103,14 @@ export class ScoresController {
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @UseFilters(HttpExceptionFilter)
   @UseFilters(new ValidationExceptionFilter())
-  async create(
-    @Body(new ValidationPipe()) @ScoreData() ScoreDto: ScoreDto,
-  ): Promise<Score> {
+  async create(@Body() @ScoreData() ScoreDto: ScoreDto): Promise<Score> {
     return await this.scoresService.createScore(
       ScoreDto.scoreId,
       ScoreDto.title,
       ScoreDto.author,
       ScoreDto.text,
-      ScoreDto.year,
       ScoreDto.createdAt,
+      ScoreDto.scoreDate,
       ScoreDto.key,
       ScoreDto.color,
       ScoreDto.category,

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsInt } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsString, IsInt, IsDateString } from 'class-validator';
 
 export class ScoreDto {
   @ApiProperty({
@@ -30,16 +31,18 @@ export class ScoreDto {
     default: 'Beinsa Duno',
   })
   readonly text: string;
-  @IsInt()
+
   @ApiProperty({
-    type: Number,
-    description: 'Year author of the score',
-    default: '1933',
+    type: Date,
+    description: 'Date of the score',
+    default: '2022-05-30T08:29:55.094Z',
   })
-  readonly year: number;
+  @Type(() => Date)
+  readonly scoreDate: Date;
+
   @ApiProperty({
     type: String,
-    description: 'id of the the score',
+    description: 'createdAt of the the score',
     default: '17.06.1925',
   })
   @IsString()
@@ -90,4 +93,11 @@ export class ScoreDto {
   })
   @IsString()
   readonly url: string;
+}
+function ApiModelProperty(arg0: {
+  type: DateConstructor;
+  description: string;
+  default: string;
+}) {
+  throw new Error('Function not implemented.');
 }

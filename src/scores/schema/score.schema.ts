@@ -7,6 +7,7 @@ export type ScoreDocument = Score & Document;
 export class Score {
   @Prop()
   scoreId: string;
+
   @Prop()
   title: string;
 
@@ -17,7 +18,7 @@ export class Score {
   text: string;
 
   @Prop()
-  year: number;
+  scoreDate: Date;
 
   @Prop()
   createdAt: string;
