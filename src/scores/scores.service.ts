@@ -56,4 +56,8 @@ export class ScoresService {
   async updateScore(scoreId: string, scoreUpdates: ScoreDto): Promise<Score> {
     return this.scoresRepository.findOneAndUpdate({ scoreId }, scoreUpdates);
   }
+
+  async deleteScore(scoreId: string): Promise<boolean> {
+    return this.scoresRepository.deleteMany({ scoreId });
+  }
 }

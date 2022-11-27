@@ -13,6 +13,7 @@ import {
   CacheInterceptor,
   Patch,
   Query,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -31,7 +32,6 @@ import { ValidationExceptionFilter } from 'src/filters/validation-exception.filt
 import { BenchmarkInterceptor } from '../interceptors/benchmark.interceptor';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { PaginationParameters } from './dto/pagination-parameters.dto';
-import { filter, Observable } from 'rxjs';
 
 @ApiTags('scores')
 @Controller('scores')
@@ -131,5 +131,18 @@ export class ScoresController {
     @Body() scoreDto: ScoreDto,
   ): Promise<Score> {
     return this.scoresService.updateScore(scoreId, scoreDto);
+  }
+
+  @Delete(':scoreId')
+  @ApiCreatedResponse({
+    type: Score,
+    description: 'the score has been successfully deleted',
+  })
+  @ApiForbiddenResponse({ description: 'Forbidden' })
+  async deleteMany(
+    @Param('scoreId') scoreId: string,
+    @Body() scoreDto: ScoreDto,
+  ): Promise<boolean> {
+    return this.scoresService.deleteScore(scoreId);
   }
 }
