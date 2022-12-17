@@ -26,6 +26,7 @@ export class ScoresService {
   async createScore(
     scoreId: string,
     title: string,
+    subTitle: string,
     author: string,
     text: string,
     createdAt: string,
@@ -40,6 +41,7 @@ export class ScoresService {
     return this.scoresRepository.create({
       scoreId: uuidv4(),
       title,
+      subTitle,
       author,
       text,
       scoreDate,

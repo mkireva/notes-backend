@@ -1,6 +1,7 @@
 export interface Score {
   scoreId: string;
   title: string;
+  subTitle: string;
   author: string;
   text: string;
   scoreDate: Date;

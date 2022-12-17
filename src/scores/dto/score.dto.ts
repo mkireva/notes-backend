@@ -19,6 +19,13 @@ export class ScoreDto {
   readonly title: string;
   @ApiProperty({
     type: String,
+    description: ' Subtitle of the score',
+    default: 'Parvi bozhestven den',
+  })
+  @IsString()
+  readonly subTitle: string;
+  @ApiProperty({
+    type: String,
     description: 'Music Author of the score',
     default: 'Beinsa Duno',
   })

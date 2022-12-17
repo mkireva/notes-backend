@@ -6,6 +6,8 @@ export class Score {
   @ApiProperty()
   title: string;
   @ApiProperty()
+  subTitle: string;
+  @ApiProperty()
   author: string;
   @ApiProperty()
   text: string;

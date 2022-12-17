@@ -10,6 +10,8 @@ export class Score {
 
   @Prop()
   title: string;
+  @Prop()
+  subTitle: string;
 
   @Prop()
   author: string;

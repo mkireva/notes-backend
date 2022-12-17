@@ -107,6 +107,7 @@ export class ScoresController {
     return await this.scoresService.createScore(
       ScoreDto.scoreId,
       ScoreDto.title,
+      ScoreDto.subTitle,
       ScoreDto.author,
       ScoreDto.text,
       ScoreDto.createdAt,
