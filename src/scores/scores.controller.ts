@@ -140,10 +140,7 @@ export class ScoresController {
     description: 'the score has been successfully deleted',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
-  async deleteMany(
-    @Param('scoreId') scoreId: string,
-    @Body() scoreDto: ScoreDto,
-  ): Promise<boolean> {
+  async deleteMany(@Param('scoreId') scoreId: string): Promise<boolean> {
     return this.scoresService.deleteScore(scoreId);
   }
 }

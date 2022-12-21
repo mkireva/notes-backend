@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsString, IsInt, IsDateString } from 'class-validator';
+import { IsString, IsInt, IsDateString, IsDate } from 'class-validator';
 
 export class ScoreDto {
   @ApiProperty({
@@ -41,9 +41,11 @@ export class ScoreDto {
 
   @ApiProperty({
     type: Date,
+    format: 'date-time',
     description: 'Date of the score',
     default: '2022-05-30T08:29:55.094Z',
   })
+  @IsDate()
   @Type(() => Date)
   readonly scoreDate: Date;
 
@@ -106,5 +108,8 @@ function ApiModelProperty(arg0: {
   description: string;
   default: string;
 }) {
+  throw new Error('Function not implemented.');
+}
+function Column(arg0: string) {
   throw new Error('Function not implemented.');
 }
