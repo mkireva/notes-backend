@@ -14,6 +14,7 @@ import {
   Patch,
   Query,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -74,7 +75,9 @@ export class ScoresController {
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiNotFoundResponse()
   @CacheTTL(15)
-  async getScore(@Param('scoreId') scoreId: string): Promise<Score> {
+  async getScore(
+    @Param('scoreId', new ParseUUIDPipe()) scoreId: string,
+  ): Promise<Score> {
     return this.scoresService
       .getScoreById(scoreId)
       .then((result) => {
