@@ -24,7 +24,10 @@ export class HttpExceptionFilter<T extends HttpException>
 
     response.status(status).send({
       ...error,
+      statusCode: status,
       timestamp: new Date().toISOString(),
+      description: 'Http Error',
+      path: ctx.getRequest().url,
     });
   }
 }

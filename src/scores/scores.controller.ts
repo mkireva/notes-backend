@@ -15,6 +15,7 @@ import {
   Query,
   Delete,
   ParseUUIDPipe,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -25,7 +26,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { ScoreDto } from './dto/score.dto';
+import { ScoreDto, ScoreUpdateDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresService } from './scores.service';
 import { ScoreData } from './decorators/scoredata.decorator';
@@ -33,8 +34,10 @@ import { ValidationExceptionFilter } from 'src/filters/validation-exception.filt
 import { BenchmarkInterceptor } from '../interceptors/benchmark.interceptor';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { PaginationParameters } from './dto/pagination-parameters.dto';
+import { ValidationPipe } from 'src/pipes/validation.pipe';
 
 @ApiTags('scores')
+@UsePipes(ValidationPipe)
 @Controller('scores')
 @UseInterceptors(CacheInterceptor, BenchmarkInterceptor)
 export class ScoresController {
@@ -123,6 +126,7 @@ export class ScoresController {
       ScoreDto.url,
     );
   }
+
   //UPDATE
   @Patch(':scoreId')
   @ApiCreatedResponse({
@@ -132,9 +136,9 @@ export class ScoresController {
   @ApiForbiddenResponse({ description: 'Forbidden' })
   async updateScore(
     @Param('scoreId') scoreId: string,
-    @Body() scoreDto: ScoreDto,
+    @Body() scoreUpdateDto: ScoreUpdateDto,
   ): Promise<Score> {
-    return this.scoresService.updateScore(scoreId, scoreDto);
+    return this.scoresService.updateScore(scoreId, scoreUpdateDto);
   }
 
   @Delete(':scoreId')

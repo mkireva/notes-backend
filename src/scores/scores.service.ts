@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { PaginationParameters } from './dto/pagination-parameters.dto';
-import { ScoreDto } from './dto/score.dto';
+import { ScoreUpdateDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresRepository } from './scores.repository';
 
@@ -55,7 +55,10 @@ export class ScoresService {
     });
   }
 
-  async updateScore(scoreId: string, scoreUpdates: ScoreDto): Promise<Score> {
+  async updateScore(
+    scoreId: string,
+    scoreUpdates: ScoreUpdateDto,
+  ): Promise<Score> {
     return this.scoresRepository.findOneAndUpdate({ scoreId }, scoreUpdates);
   }
 
