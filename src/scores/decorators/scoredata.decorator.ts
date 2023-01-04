@@ -1,5 +1,12 @@
-import { createParamDecorator } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const ScoreData = createParamDecorator((data: string, req) => {
-  return data ? req.body && req.body[data] : req.body;
-});
+export const ScoreData = createParamDecorator(
+  (data: string, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    const score = request.score;
+
+    return data ? score?.[data] : score;
+  },
+);
+
+//createParameterDecorator don't work

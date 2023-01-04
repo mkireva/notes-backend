@@ -3,6 +3,7 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
+  RequestMethod,
 } from '@nestjs/common';
 import { ScoresController } from './scores.controller';
 import { ScoresService } from './scores.service';
@@ -25,6 +26,7 @@ import { ScoresRepository } from './scores.repository';
 })
 export class ScoresModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuditMiddleware);
     consumer.apply(AuditMiddleware).forRoutes('*');
   }
 }

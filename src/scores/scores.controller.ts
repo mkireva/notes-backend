@@ -29,10 +29,11 @@ import { ScoreDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresService } from './scores.service';
 import { ScoreData } from './decorators/scoredata.decorator';
-import { ValidationExceptionFilter } from 'src/filters/validation-exception.filter';
 import { BenchmarkInterceptor } from '../interceptors/benchmark.interceptor';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { PaginationParameters } from './dto/pagination-parameters.dto';
+import { ValidationPipe } from 'src/pipes/validation.pipe';
+import { ValidationExceptionFilter } from 'src/filters/validation-exception.filter';
 
 @ApiTags('scores')
 @Controller('scores')
@@ -104,9 +105,10 @@ export class ScoresController {
     description: 'the score has been successfully created',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
-  @UseFilters(HttpExceptionFilter)
-  @UseFilters(new ValidationExceptionFilter())
-  async create(@Body() @ScoreData() ScoreDto: ScoreDto): Promise<Score> {
+  @UseFilters(ValidationExceptionFilter)
+  async create(
+    @Body(ValidationPipe) @ScoreData() ScoreDto: ScoreDto,
+  ): Promise<Score> {
     return await this.scoresService.createScore(
       ScoreDto.scoreId,
       ScoreDto.title,
@@ -130,9 +132,10 @@ export class ScoresController {
     description: 'the score has been successfully updated',
   })
   @ApiForbiddenResponse({ description: 'Forbidden' })
+  @UseFilters(ValidationExceptionFilter)
   async updateScore(
     @Param('scoreId') scoreId: string,
-    @Body() scoreDto: ScoreDto,
+    @Body(ValidationPipe) scoreDto: ScoreDto,
   ): Promise<Score> {
     return this.scoresService.updateScore(scoreId, scoreDto);
   }
