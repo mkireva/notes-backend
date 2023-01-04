@@ -29,7 +29,7 @@ import { ScoreDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresService } from './scores.service';
 import { ScoreData } from './decorators/scoredata.decorator';
-import { BenchmarkInterceptor } from '../interceptors/benchmark.interceptor';
+import { LoggingInterceptor } from '../interceptors/logging.interceptor';
 import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
 import { PaginationParameters } from './dto/pagination-parameters.dto';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
@@ -37,7 +37,7 @@ import { ValidationExceptionFilter } from 'src/filters/validation-exception.filt
 
 @ApiTags('scores')
 @Controller('scores')
-@UseInterceptors(CacheInterceptor, BenchmarkInterceptor)
+@UseInterceptors(CacheInterceptor, LoggingInterceptor)
 export class ScoresController {
   constructor(private scoresService: ScoresService) {}
 
