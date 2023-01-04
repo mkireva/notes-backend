@@ -3,7 +3,6 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
-  RequestMethod,
 } from '@nestjs/common';
 import { ScoresController } from './scores.controller';
 import { ScoresService } from './scores.service';

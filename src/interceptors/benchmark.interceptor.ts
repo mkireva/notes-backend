@@ -18,6 +18,6 @@ export class BenchmarkInterceptor implements NestInterceptor {
     const now = Date.now();
     return next
       .handle()
-      .pipe(tap(() => console.log(`After... ${Date.now() - now}ms`)));
+      .pipe(tap(() => console.log(`Execution time:  ${Date.now() - now}ms`)));
   }
 }
