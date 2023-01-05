@@ -8,7 +8,7 @@ import { ScoresController } from './scores.controller';
 import { ScoresService } from './scores.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Score, ScoreSchema } from './schema/score.schema';
-import { AuditMiddleware } from 'src/common/middleware/audit.middleware';
+// import { AuditMiddleware } from 'src/common/middleware/audit.middleware';
 import { ScoresRepository } from './scores.repository';
 
 @Module({
@@ -25,7 +25,7 @@ import { ScoresRepository } from './scores.repository';
 })
 export class ScoresModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuditMiddleware);
-    consumer.apply(AuditMiddleware).forRoutes('*');
+    // consumer.apply(AuditMiddleware);
+    // consumer.apply(AuditMiddleware).forRoutes('*');
   }
 }
