@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsString, IsInt, IsDateString, IsDate } from 'class-validator';
 
@@ -103,13 +103,5 @@ export class ScoreDto {
   @IsString()
   readonly url: string;
 }
-function ApiModelProperty(arg0: {
-  type: DateConstructor;
-  description: string;
-  default: string;
-}) {
-  throw new Error('Function not implemented.');
-}
-function Column(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+
+export class UpdateScoreDto extends PartialType(ScoreDto) {}

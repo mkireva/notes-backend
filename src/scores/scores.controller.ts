@@ -135,9 +135,9 @@ export class ScoresController {
   @UseFilters(ValidationExceptionFilter)
   async updateScore(
     @Param('scoreId') scoreId: string,
-    @Body(ValidationPipe) scoreDto: ScoreDto,
+    @Body(ValidationPipe) UpdateScoreDto,
   ): Promise<Score> {
-    return this.scoresService.updateScore(scoreId, scoreDto);
+    return this.scoresService.updateScore(scoreId, UpdateScoreDto);
   }
 
   @Delete(':scoreId')
