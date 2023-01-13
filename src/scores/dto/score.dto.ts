@@ -97,7 +97,7 @@ export class ScoreDto {
 
   @ApiProperty({
     type: String,
-    description: ' Url of the score',
+    description: 'Url of the score',
     default: 'www.beinsa.de',
   })
   @IsString()

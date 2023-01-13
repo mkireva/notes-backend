@@ -7,10 +7,7 @@ import {
   HttpException,
   HttpStatus,
   UseFilters,
-  CacheKey,
-  CacheTTL,
   UseInterceptors,
-  CacheInterceptor,
   Patch,
   Query,
   Delete,
@@ -25,7 +22,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { ScoreDto } from './dto/score.dto';
+import { ScoreDto, UpdateScoreDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresService } from './scores.service';
 import { ScoreData } from './decorators/scoredata.decorator';
@@ -37,7 +34,7 @@ import { ValidationExceptionFilter } from 'src/filters/validation-exception.filt
 
 @ApiTags('scores')
 @Controller('scores')
-@UseInterceptors(CacheInterceptor, LoggingInterceptor)
+@UseInterceptors(LoggingInterceptor)
 export class ScoresController {
   constructor(private scoresService: ScoresService) {}
 
@@ -51,8 +48,6 @@ export class ScoresController {
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiNotFoundResponse()
   @ApiQuery({ name: 'name', required: false })
-  @CacheKey('allScores')
-  @CacheTTL(15)
   async getScores(
     @Query() getScoresParameters: PaginationParameters,
   ): Promise<Score[]> {
@@ -67,7 +62,6 @@ export class ScoresController {
 
   // GETONE
   @Get(':scoreId')
-  @CacheTTL(30)
   @ApiOkResponse({
     type: Score,
     description: 'the rescore has been successfully returned',
@@ -75,7 +69,6 @@ export class ScoresController {
   @UseFilters(HttpExceptionFilter)
   @ApiForbiddenResponse({ description: 'Forbidden' })
   @ApiNotFoundResponse()
-  @CacheTTL(15)
   async getScore(
     @Param('scoreId', new ParseUUIDPipe()) scoreId: string,
   ): Promise<Score> {
@@ -110,7 +103,6 @@ export class ScoresController {
     @Body(ValidationPipe) @ScoreData() ScoreDto: ScoreDto,
   ): Promise<Score> {
     return await this.scoresService.createScore(
-      ScoreDto.scoreId,
       ScoreDto.title,
       ScoreDto.subTitle,
       ScoreDto.author,
@@ -135,7 +127,7 @@ export class ScoresController {
   @UseFilters(ValidationExceptionFilter)
   async updateScore(
     @Param('scoreId') scoreId: string,
-    @Body(ValidationPipe) UpdateScoreDto,
+    @Body(ValidationPipe) UpdateScoreDto: UpdateScoreDto,
   ): Promise<Score> {
     return this.scoresService.updateScore(scoreId, UpdateScoreDto);
   }

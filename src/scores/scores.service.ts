@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { PaginationParameters } from './dto/pagination-parameters.dto';
-import { ScoreDto, UpdateScoreDto } from './dto/score.dto';
+import { UpdateScoreDto } from './dto/score.dto';
 import { Score } from './entities/scoreEntity';
 import { ScoresRepository } from './scores.repository';
 
@@ -24,7 +24,6 @@ export class ScoresService {
   }
 
   async createScore(
-    scoreId: string,
     title: string,
     subTitle: string,
     author: string,

@@ -16,11 +16,11 @@ import { ScoresRepository } from './scores.repository';
     MongooseModule.forFeature([
       { name: Score.name, schema: SchemaFactory.createForClass(Score) },
     ]),
-    CacheModule.register({
-      ttl: 5, //seconds,
-      max: 100, //max number of Items in cache})
-      //Todo add redis with more parameter
-    }),
+    // CacheModule.register({
+    //   ttl: 5, //seconds,
+    //   max: 100, //max number of Items in cache})
+    //   //Todo add redis with more parameter
+    // }),
   ],
   controllers: [ScoresController],
   providers: [ScoresService, ScoresRepository],
