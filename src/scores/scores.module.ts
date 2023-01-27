@@ -7,7 +7,7 @@ import {
 import { ScoresController } from './scores.controller';
 import { ScoresService } from './scores.service';
 import { MongooseModule, SchemaFactory } from '@nestjs/mongoose';
-import { Score, ScoreSchema } from './schema/score.schema';
+import { Score } from './schema/score.schema';
 // import { AuditMiddleware } from 'src/common/middleware/audit.middleware';
 import { ScoresRepository } from './scores.repository';
 

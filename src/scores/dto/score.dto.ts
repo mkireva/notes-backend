@@ -1,6 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsString, IsInt, IsDateString, IsDate } from 'class-validator';
+import { IsString, IsDate } from 'class-validator';
 
 export class ScoreDto {
   @ApiProperty({
